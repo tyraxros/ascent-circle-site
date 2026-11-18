@@ -1,0 +1,224 @@
+<title>Untung Bersih Ascent Circle</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: ledger — ringkasan atas, kad bisnes boleh tambah, jadual pecahan bawah */
+:root{
+  --bg:#f3f5f2; --surface:#ffffff; --ink:#14231d; --muted:#5b6b64; --line:#d5ddd8;
+  --accent:#0f5a43; --gold:#a8741a; --goldsoft:#f6ecd8; --bad:#b3261e; --badsoft:#fbe9e7;
+  --display:"Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --body:"IBM Plex Sans", system-ui, -apple-system, sans-serif;
+  --mono:"IBM Plex Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0e1714; --surface:#16221e; --ink:#e6eee9; --muted:#97a8a0; --line:#2a3a34;
+  --accent:#5fc7a2; --gold:#e0b25a; --goldsoft:#2e2716; --bad:#ff8a80; --badsoft:#3a1f1c; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0e1714; --surface:#16221e; --ink:#e6eee9; --muted:#97a8a0; --line:#2a3a34;
+  --accent:#5fc7a2; --gold:#e0b25a; --goldsoft:#2e2716; --bad:#ff8a80; --badsoft:#3a1f1c; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.5;margin:0}
+.wrap{max-width:1080px;margin:0 auto;padding-block:28px 56px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:grid;gap:24px}
+h1{font-family:var(--display);font-weight:800;font-size:clamp(28px,5vw,44px);line-height:1.05;margin:0;text-wrap:balance}
+h2{font-family:var(--display);font-weight:600;font-size:20px;margin:0}
+.eyebrow{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.lede{color:var(--muted);max-width:62ch;margin:6px 0 0}
+.num{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.tile{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px 16px;display:grid;gap:4px;min-width:0}
+.tile .v{font-family:var(--mono);font-size:22px;font-weight:500;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.tile.net{background:var(--accent);border-color:var(--accent);color:var(--bg)}
+.tile.net .eyebrow{color:inherit;opacity:.8}
+.tile.zakat .v{color:var(--gold)}
+.settings{display:flex;flex-wrap:wrap;gap:16px;align-items:end;background:var(--goldsoft);border-radius:10px;padding:14px 16px}
+label{display:grid;gap:4px;font-size:13px;color:var(--muted);font-weight:500}
+input,select{font:inherit;font-family:var(--mono);color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:8px 10px;min-width:0;width:100%}
+select{font-family:var(--body)}
+input:focus-visible,select:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.settings label{width:180px}
+.nisab{font-size:13px;color:var(--ink)}
+.biz-list{display:grid;gap:12px}
+.biz{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px 16px;display:grid;gap:12px}
+.biz-head{display:flex;gap:10px;align-items:end;flex-wrap:wrap}
+.biz-head label:first-child{flex:1 1 220px}
+.biz-head label:nth-child(2){flex:0 1 230px}
+.fields{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.result{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:13px;color:var(--muted);border-top:1px dashed var(--line);padding-top:10px}
+.result b{color:var(--ink);font-family:var(--mono);font-weight:500}
+.chip{font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;padding:2px 8px;border-radius:999px;background:var(--goldsoft);color:var(--gold);align-self:center}
+.chip.bad{background:var(--badsoft);color:var(--bad)}
+button{font:inherit;font-weight:600;cursor:pointer;border-radius:8px;border:1px solid var(--line);background:var(--surface);color:var(--ink);padding:8px 14px}
+button.primary{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+button.remove{padding:8px 10px;color:var(--bad)}
+.actions{display:flex;gap:10px;flex-wrap:wrap}
+.table-wrap{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:10px}
+table{border-collapse:collapse;width:100%;min-width:720px;font-size:14px}
+th,td{padding:10px 12px;text-align:right;border-bottom:1px solid var(--line);white-space:nowrap}
+th:first-child,td:first-child{text-align:left}
+th{font-size:12px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);font-weight:600}
+td{font-family:var(--mono);font-variant-numeric:tabular-nums}
+td:first-child{font-family:var(--body)}
+tfoot td{font-weight:600;border-bottom:0}
+.notes{font-size:13px;color:var(--muted);display:grid;gap:6px;max-width:75ch}
+.notes p{margin:0}
+.banner{background:var(--badsoft);color:var(--ink);border-radius:10px;padding:12px 16px;font-size:14px}
+.banner strong{color:var(--bad)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Ascent Circle · CFO</div>
+    <h1>Untung bersih selepas cukai &amp; zakat</h1>
+    <p class="lede">Masukkan hasil dan kos setiap bisnes. Kalkulator kira cukai pendapatan LHDN, zakat perniagaan dan untung bersih, termasuk jumlah semua bisnes.</p>
+  </header>
+
+  <div class="banner"><strong>Anggaran sahaja.</strong> Angka contoh dimuatkan dulu. Ganti dengan angka sebenar, dan sahkan jumlah akhir dengan akauntan, LHDN dan pusat zakat negeri.</div>
+
+  <section class="summary" aria-label="Ringkasan">
+    <div class="tile"><span class="eyebrow">Untung sebelum cukai</span><span class="v" id="sPbt">–</span></div>
+    <div class="tile"><span class="eyebrow">Cukai pendapatan</span><span class="v" id="sTax">–</span></div>
+    <div class="tile zakat"><span class="eyebrow">Zakat perniagaan</span><span class="v" id="sZakat">–</span></div>
+    <div class="tile net"><span class="eyebrow">Untung bersih</span><span class="v" id="sNet">–</span></div>
+  </section>
+
+  <section class="settings" aria-label="Tetapan">
+    <label for="goldPrice">Harga emas (RM/gram)
+      <input id="goldPrice" type="number" min="0" step="0.01" inputmode="decimal">
+    </label>
+    <label for="relief">Pelepasan peribadi (RM)
+      <input id="relief" type="number" min="0" step="1" inputmode="decimal">
+    </label>
+    <div class="nisab">Nisab (85 g emas): <b class="num" id="nisab">–</b></div>
+  </section>
+
+  <section class="biz-list" id="bizList" aria-label="Bisnes"></section>
+
+  <div class="actions">
+    <button class="primary" id="addBiz" type="button">+ Tambah bisnes</button>
+    <button id="resetBiz" type="button">Muat semula contoh</button>
+  </div>
+
+  <section style="display:grid;gap:10px">
+    <h2>Pecahan per bisnes</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Bisnes</th><th>Hasil</th><th>Kos</th><th>Untung sblm cukai</th><th>Zakat</th><th>Cukai</th><th>Untung bersih</th><th>Margin</th></tr></thead>
+        <tbody id="tbody"></tbody>
+        <tfoot><tr id="tfoot"></tr></tfoot>
+      </table>
+    </div>
+  </section>
+
+  <section class="notes">
+    <h2 style="color:var(--ink)">Cara kiraan</h2>
+    <p><b>Sdn Bhd PKS</b> (modal berbayar ≤ RM2.5 juta, hasil ≤ RM50 juta): 15% untuk RM150,000 pertama, 17% hingga RM600,000, 24% selebihnya. <b>Sdn Bhd bukan PKS</b>: 24%. Zakat syarikat ditolak dari pendapatan, had 2.5% pendapatan agregat.</p>
+    <p><b>Enterprise</b>: untung semua enterprise milik owner dicampur dahulu (satu taksiran individu), tolak pelepasan peribadi, kemudian kadar progresif individu 0%–30%. Zakat individu jadi rebat dan ditolak terus dari cukai. Cukai dibahagi ikut nisbah untung setiap enterprise.</p>
+    <p><b>Zakat perniagaan</b>: 2.5% × (aset semasa − liabiliti semasa), wajib jika asas ≥ nisab dan cukup haul. Kalau aset/liabiliti dibiarkan kosong, untung sebelum cukai dipakai sebagai anggaran asas.</p>
+  </section>
+</div>
+
+<script>
+const SAMPLE = [
+  {name:"Contoh: Kedai Online", type:"ent", rev:480000, cost:355000, ca:"", cl:""},
+  {name:"Contoh: Agensi Servis", type:"sme", rev:900000, cost:610000, ca:420000, cl:150000},
+  {name:"Contoh: Kafe Fizikal", type:"ent", rev:260000, cost:228000, ca:"", cl:""}
+];
+const KEY = "ac-cukai-zakat-v1";
+let state;
+try { state = JSON.parse(localStorage.getItem(KEY)); } catch(e) { state = null; }
+if (!state || !Array.isArray(state.biz)) state = {gold:550, relief:9000, biz: SAMPLE.map(b=>({...b}))};
+
+const rm = n => "RM " + (Math.round(n*100)/100).toLocaleString("en-MY",{minimumFractionDigits:2,maximumFractionDigits:2});
+const val = x => { const n = parseFloat(x); return isFinite(n) ? n : 0; };
+const save = () => { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch(e) {} };
+
+// Kadar individu (tahun taksiran 2023 dan seterusnya)
+const IND = [[5000,0],[20000,.01],[35000,.03],[50000,.06],[70000,.11],[100000,.19],[400000,.25],[600000,.26],[2000000,.28],[Infinity,.30]];
+function indTax(ci){ let t=0, prev=0; for (const [cap,r] of IND){ if (ci<=prev) break; t += (Math.min(ci,cap)-prev)*r; prev=cap; } return t; }
+function smeTax(ci){ ci=Math.max(0,ci); return Math.min(ci,150000)*.15 + Math.max(0,Math.min(ci,600000)-150000)*.17 + Math.max(0,ci-600000)*.24; }
+
+function compute(){
+  const nisab = 85*val(state.gold);
+  const rows = state.biz.map(b=>{
+    const rev=val(b.rev), cost=val(b.cost), pbt=rev-cost;
+    const hasWC = b.ca!=="" && b.ca!=null;
+    const base = hasWC ? val(b.ca)-val(b.cl) : Math.max(0,pbt);
+    const zakat = base>=nisab && base>0 ? base*.025 : 0;
+    return {b, rev, cost, pbt, base, zakat, est:!hasWC, tax:0};
+  });
+  // Syarikat
+  rows.filter(r=>r.b.type!=="ent").forEach(r=>{
+    const ded = Math.min(r.zakat, .025*Math.max(0,r.pbt));
+    const ci = Math.max(0, r.pbt-ded);
+    r.tax = r.b.type==="sme" ? smeTax(ci) : ci*.24;
+  });
+  // Enterprise: satu taksiran individu
+  const ents = rows.filter(r=>r.b.type==="ent");
+  const entProfit = ents.reduce((s,r)=>s+Math.max(0,r.pbt),0);
+  const entZakat = ents.reduce((s,r)=>s+r.zakat,0);
+  const personal = Math.max(0, indTax(Math.max(0, entProfit-val(state.relief))) - entZakat);
+  ents.forEach(r=>{ r.tax = entProfit>0 ? personal*Math.max(0,r.pbt)/entProfit : 0; });
+  rows.forEach(r=>{ r.net = r.pbt - r.tax - r.zakat; });
+  return {rows, nisab};
+}
+
+const list = document.getElementById("bizList");
+function renderCards(){
+  list.innerHTML = "";
+  state.biz.forEach((b,i)=>{
+    const el = document.createElement("article");
+    el.className = "biz";
+    el.innerHTML = `
+      <div class="biz-head">
+        <label for="n${i}">Nama bisnes<input id="n${i}" data-k="name" type="text" style="font-family:var(--body)"></label>
+        <label for="t${i}">Jenis entiti<select id="t${i}" data-k="type">
+          <option value="ent">Enterprise / milikan tunggal</option>
+          <option value="sme">Sdn Bhd (PKS)</option>
+          <option value="co">Sdn Bhd (bukan PKS)</option></select></label>
+        <button class="remove" type="button" aria-label="Buang bisnes">Buang</button>
+      </div>
+      <div class="fields">
+        <label for="r${i}">Hasil setahun (RM)<input id="r${i}" data-k="rev" type="number" min="0" inputmode="decimal"></label>
+        <label for="c${i}">Kos boleh tolak (RM)<input id="c${i}" data-k="cost" type="number" min="0" inputmode="decimal"></label>
+        <label for="a${i}">Aset semasa (RM)<input id="a${i}" data-k="ca" type="number" min="0" inputmode="decimal" placeholder="pilihan"></label>
+        <label for="l${i}">Liabiliti semasa (RM)<input id="l${i}" data-k="cl" type="number" min="0" inputmode="decimal" placeholder="pilihan"></label>
+      </div>
+      <div class="result" id="res${i}"></div>`;
+    el.querySelectorAll("[data-k]").forEach(inp=>{
+      inp.value = b[inp.dataset.k] ?? "";
+      inp.addEventListener("input", ()=>{ b[inp.dataset.k] = inp.value; update(); });
+    });
+    el.querySelector(".remove").addEventListener("click", ()=>{ state.biz.splice(i,1); renderCards(); update(); });
+    list.appendChild(el);
+  });
+}
+
+function update(){
+  save();
+  const {rows, nisab} = compute();
+  document.getElementById("nisab").textContent = rm(nisab);
+  rows.forEach((r,i)=>{
+    const el = document.getElementById("res"+i); if(!el) return;
+    const chip = r.pbt<0 ? `<span class="chip bad">Rugi</span>` : (r.zakat===0 ? `<span class="chip">Bawah nisab</span>` : (r.est ? `<span class="chip">Zakat anggaran</span>` : ""));
+    el.innerHTML = `<span>Untung sblm cukai <b>${rm(r.pbt)}</b></span><span>Zakat <b>${rm(r.zakat)}</b></span><span>Cukai <b>${rm(r.tax)}</b></span><span>Untung bersih <b>${rm(r.net)}</b></span>${chip}`;
+  });
+  const T = k => rows.reduce((s,r)=>s+r[k],0);
+  document.getElementById("sPbt").textContent = rm(T("pbt"));
+  document.getElementById("sTax").textContent = rm(T("tax"));
+  document.getElementById("sZakat").textContent = rm(T("zakat"));
+  document.getElementById("sNet").textContent = rm(T("net"));
+  const esc = s => String(s||"(tanpa nama)").replace(/[&<>"]/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+  const pct = (n,d) => d>0 ? (n/d*100).toFixed(1)+"%" : "–";
+  document.getElementById("tbody").innerHTML = rows.map(r=>`<tr><td>${esc(r.b.name)}</td><td>${rm(r.rev)}</td><td>${rm(r.cost)}</td><td>${rm(r.pbt)}</td><td>${rm(r.zakat)}</td><td>${rm(r.tax)}</td><td>${rm(r.net)}</td><td>${pct(r.net,r.rev)}</td></tr>`).join("");
+  document.getElementById("tfoot").innerHTML = `<td>Jumlah</td><td>${rm(T("rev"))}</td><td>${rm(T("cost"))}</td><td>${rm(T("pbt"))}</td><td>${rm(T("zakat"))}</td><td>${rm(T("tax"))}</td><td>${rm(T("net"))}</td><td>${pct(T("net"),T("rev"))}</td>`;
+}
+
+const g = document.getElementById("goldPrice"), rl = document.getElementById("relief");
+g.value = state.gold; rl.value = state.relief;
+g.addEventListener("input", ()=>{ state.gold=g.value; update(); });
+rl.addEventListener("input", ()=>{ state.relief=rl.value; update(); });
+document.getElementById("addBiz").addEventListener("click", ()=>{ state.biz.push({name:"", type:"ent", rev:"", cost:"", ca:"", cl:""}); renderCards(); update(); });
+document.getElementById("resetBiz").addEventListener("click", ()=>{ state.biz = SAMPLE.map(b=>({...b})); renderCards(); update(); });
+renderCards(); update();
+</script>

@@ -1,0 +1,1419 @@
+{
+  "name": "Ascent Circle - Telegram Agent Swarm",
+  "nodes": [
+    {
+      "parameters": {
+        "updates": [
+          "message"
+        ],
+        "additionalFields": {}
+      },
+      "id": "2caab031-d3ee-41c0-bfc7-8e02f8acd25c",
+      "name": "Telegram Trigger",
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        300
+      ],
+      "credentials": {
+        "telegramApi": {
+          "id": "",
+          "name": "Telegram bot"
+        }
+      },
+      "webhookId": "568e5189-ed20-463b-b22c-8b65f9b0e874"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "569dfb95-4ace-4bd7-86ce-a1176ee1ef6a",
+              "leftValue": "={{ String($json.message.chat.id) }}",
+              "rightValue": "={{ $env.OWNER_CHAT_ID }}",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "719a8ef3-4d3f-4eff-8e12-6fc5b1e32809",
+      "name": "Boss sahaja?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        220,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "2ad06442-5c22-418b-a2b8-bd56dabc1df2",
+              "leftValue": "={{ $json.message.voice }}",
+              "rightValue": "",
+              "operator": {
+                "type": "object",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "416b278d-506f-4401-b5ab-648d0c68f931",
+      "name": "Mesej suara?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        440,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "file",
+        "fileId": "={{ $json.message.voice.file_id }}",
+        "additionalFields": {}
+      },
+      "id": "3cad25f6-7340-4f2f-95e2-5dbd7fbc91ec",
+      "name": "Muat turun suara",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        660,
+        180
+      ],
+      "credentials": {
+        "telegramApi": {
+          "id": "",
+          "name": "Telegram bot"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "audio",
+        "operation": "transcribe",
+        "options": {}
+      },
+      "id": "fb934244-87ff-42f8-a826-71deab7ca794",
+      "name": "Transkrip suara",
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        880,
+        180
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "",
+          "name": "OpenAI (transkrip suara sahaja)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "28d1eb03-fd07-4e32-946a-30367251aead",
+              "name": "text",
+              "value": "={{ $json.text }}",
+              "type": "string"
+            },
+            {
+              "id": "2c63887e-917a-43c2-ae34-b049c324cbeb",
+              "name": "chatId",
+              "value": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "86efd534-0a5b-44d6-a7d9-49a5cab62703",
+      "name": "Teks dari suara",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1100,
+        180
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "8dcb0c9d-b375-442b-8829-1bf0a69b0c80",
+              "name": "text",
+              "value": "={{ $json.message.text || '' }}",
+              "type": "string"
+            },
+            {
+              "id": "c406cb63-2e9d-4648-8a56-005f96aeb25e",
+              "name": "chatId",
+              "value": "={{ $json.message.chat.id }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "fd3426f2-c549-4a00-a929-a0bf2eabe1eb",
+      "name": "Teks",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        660,
+        420
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "7ab6dc23-999e-4838-96fb-6660fc21aa2d",
+              "name": "text",
+              "value": "={{ $json.text }}",
+              "type": "string"
+            },
+            {
+              "id": "1de6ff15-1b9b-4aab-ba4b-3b310b743431",
+              "name": "chatId",
+              "value": "={{ $json.chatId }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "317afbd7-7412-498e-84ad-9f9877a83e81",
+      "name": "Arahan",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1100,
+        420
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "mode": "url",
+          "value": "https://docs.google.com/spreadsheets/d/GANTI_DENGAN_ID_SHEET/edit"
+        },
+        "sheetName": {
+          "__rl": true,
+          "mode": "name",
+          "value": "log"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "masa": "={{ $now.toISO() }}",
+            "agent": "Aina",
+            "status": "Bekerja",
+            "tugasan": "={{ $json.text.slice(0,200) }}",
+            "ringkasan": ""
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "masa",
+              "displayName": "masa",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "agent",
+              "displayName": "agent",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "status",
+              "displayName": "status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "tugasan",
+              "displayName": "tugasan",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "ringkasan",
+              "displayName": "ringkasan",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "59a5fa2f-66da-4bf1-8e9f-bfc0c697f528",
+      "name": "Tanda Aina sibuk",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        1320,
+        140
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "",
+          "name": "Google Sheets account"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.text }}",
+        "options": {
+          "systemMessage": "=Kau ialah Aina, Team Coordinator untuk syarikat Ascent Circle. Boss bercakap dengan kau melalui Telegram. Tugas kau: faham arahan Boss, pecahkan kepada tugasan, serahkan kepada agent yang betul (guna tool agent), gabungkan hasil, dan lapor balik kepada Boss. Pasukan: Mira (email & calendar), Hakim (kewangan, cukai, zakat, saham), Sara (idea content & kempen), Nadia (social media), Danial (teknikal), Rizq (cari maklumat di internet). Kalau tugasan perlukan fakta terkini, minta Rizq cari dulu, kemudian bagi kepada agent lain. Mulakan setiap jawapan dengan nama agent yang buat kerja. Hadkan jawapan bawah 3500 aksara. Tarikh dan masa sekarang: {{ $now.setZone('Asia/Kuala_Lumpur').toFormat('cccc, d LLL yyyy HH:mm') }} (waktu Malaysia). Peraturan wajib: (1) Jangan reka fakta atau angka. Kalau data tiada, kata TIADA DATA. (2) Apa-apa yang melibatkan duit, harga, bayaran, janji kepada customer, hantar email atau post, belanja iklan: buat DRAF sahaja dan minta Boss approve. (3) Jawab dalam Bahasa Melayu santai, ringkas, guna RM untuk duit.",
+          "maxIterations": 15,
+          "returnIntermediateSteps": true
+        }
+      },
+      "id": "3dedcef9-1968-4a13-9d28-b2b4a639efe2",
+      "name": "Aina - Team Coordinator",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.9,
+      "position": [
+        1560,
+        300
+      ],
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "id",
+          "value": "claude-opus-5-5"
+        },
+        "options": {
+          "maxTokensToSample": 4096
+        }
+      },
+      "id": "f04a69d7-1414-43b3-838e-172c3648d160",
+      "name": "Claude Opus 5.5 (Aina)",
+      "type": "@n8n/n8n-nodes-langchain.lmChatAnthropic",
+      "typeVersion": 1.3,
+      "position": [
+        1380,
+        560
+      ],
+      "credentials": {
+        "anthropicApi": {
+          "id": "",
+          "name": "Anthropic account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $('Arahan').first().json.chatId }}",
+        "contextWindowLength": 20
+      },
+      "id": "e352d2f9-a9ed-43ca-9dd8-eeb78d2cb69c",
+      "name": "Memory perbualan",
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        1540,
+        560
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "9bf0dd86-c37f-4e23-a3a3-fa69cee723cc",
+      "name": "Think",
+      "type": "@n8n/n8n-nodes-langchain.toolThink",
+      "typeVersion": 1,
+      "position": [
+        1700,
+        560
+      ]
+    },
+    {
+      "parameters": {
+        "toolDescription": "Mira (Admin (Email & Calendar)). Urus email Gmail dan Google Calendar Boss: cari dan ringkaskan email, buat DRAF balasan, semak jadual dan buat event.",
+        "text": "={{ $fromAI('tugasan', 'Tugasan lengkap untuk agent ini, termasuk semua konteks yang dia perlukan', 'string') }}",
+        "options": {
+          "systemMessage": "Kau ialah Mira, Admin (Email & Calendar) di Ascent Circle. Skop kau: Urus email Gmail dan Google Calendar Boss: cari dan ringkaskan email, buat DRAF balasan, semak jadual dan buat event. Kau terima tugasan daripada Aina (Team Coordinator) dan pulangkan hasil yang lengkap. Peraturan wajib: (1) Jangan reka fakta atau angka. Kalau data tiada, kata TIADA DATA. (2) Apa-apa yang melibatkan duit, harga, bayaran, janji kepada customer, hantar email atau post, belanja iklan: buat DRAF sahaja dan minta Boss approve. (3) Jawab dalam Bahasa Melayu santai, ringkas, guna RM untuk duit.",
+          "maxIterations": 10
+        }
+      },
+      "id": "23fda9e2-4fcf-4897-b049-d8d54b62eed9",
+      "name": "Mira - Admin (Email & Calendar)",
+      "type": "@n8n/n8n-nodes-langchain.agentTool",
+      "typeVersion": 2.2,
+      "position": [
+        900,
+        860
+      ]
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "id",
+          "value": "claude-haiku-5-5"
+        },
+        "options": {
+          "maxTokensToSample": 4096
+        }
+      },
+      "id": "4bbd9504-113a-4f23-a1b0-3b3443b14280",
+      "name": "Model Mira",
+      "type": "@n8n/n8n-nodes-langchain.lmChatAnthropic",
+      "typeVersion": 1.3,
+      "position": [
+        760,
+        1120
+      ],
+      "credentials": {
+        "anthropicApi": {
+          "id": "",
+          "name": "Anthropic account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "returnAll": false,
+        "limit": 15,
+        "simple": true,
+        "filters": {
+          "q": "={{ $fromAI('carian', 'Gmail search query, contoh newer_than:1d is:unread', 'string') }}"
+        },
+        "options": {}
+      },
+      "id": "6c29f9e3-8c2b-4c96-acec-a751e0a871f6",
+      "name": "Gmail: cari email",
+      "type": "n8n-nodes-base.gmailTool",
+      "typeVersion": 2.1,
+      "position": [
+        900,
+        1120
+      ],
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "draft",
+        "subject": "={{ $fromAI('subjek', '', 'string') }}",
+        "message": "={{ $fromAI('mesej', 'Isi email', 'string') }}",
+        "options": {
+          "sendTo": "={{ $fromAI('kepada', 'Alamat email penerima', 'string') }}"
+        }
+      },
+      "id": "2971cc2b-af2e-43e2-b8b7-a25995a270c2",
+      "name": "Gmail: buat draf",
+      "type": "n8n-nodes-base.gmailTool",
+      "typeVersion": 2.1,
+      "position": [
+        1040,
+        1120
+      ],
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "calendar": {
+          "__rl": true,
+          "mode": "list",
+          "value": "primary",
+          "cachedResultName": "Calendar utama"
+        },
+        "returnAll": false,
+        "limit": 25,
+        "timeMin": "={{ $fromAI('dari', 'Masa mula ISO 8601', 'string') }}",
+        "timeMax": "={{ $fromAI('hingga', 'Masa akhir ISO 8601', 'string') }}",
+        "options": {}
+      },
+      "id": "41338c0f-fecc-42b4-b455-55f01542c7f1",
+      "name": "Calendar: lihat jadual",
+      "type": "n8n-nodes-base.googleCalendarTool",
+      "typeVersion": 1.3,
+      "position": [
+        1180,
+        1120
+      ],
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "",
+          "name": "Google Calendar account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "calendar": {
+          "__rl": true,
+          "mode": "list",
+          "value": "primary",
+          "cachedResultName": "Calendar utama"
+        },
+        "start": "={{ $fromAI('mula', 'Masa mula ISO 8601', 'string') }}",
+        "end": "={{ $fromAI('tamat', 'Masa tamat ISO 8601', 'string') }}",
+        "additionalFields": {
+          "summary": "={{ $fromAI('tajuk', '', 'string') }}"
+        }
+      },
+      "id": "65d47c42-fd14-447d-a134-b9c19e62b7e0",
+      "name": "Calendar: buat event",
+      "type": "n8n-nodes-base.googleCalendarTool",
+      "typeVersion": 1.3,
+      "position": [
+        1320,
+        1120
+      ],
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "",
+          "name": "Google Calendar account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "toolDescription": "Hakim (CFO & Financial Analyst). Kewangan: untung rugi, cukai LHDN, zakat perniagaan, aliran tunai, baca data transaksi dari Google Sheet, analisis saham dan strategi pelaburan (bukan nasihat kewangan berlesen).",
+        "text": "={{ $fromAI('tugasan', 'Tugasan lengkap untuk agent ini, termasuk semua konteks yang dia perlukan', 'string') }}",
+        "options": {
+          "systemMessage": "Kau ialah Hakim, CFO & Financial Analyst di Ascent Circle. Skop kau: Kewangan: untung rugi, cukai LHDN, zakat perniagaan, aliran tunai, baca data transaksi dari Google Sheet, analisis saham dan strategi pelaburan (bukan nasihat kewangan berlesen). Kau terima tugasan daripada Aina (Team Coordinator) dan pulangkan hasil yang lengkap. Peraturan wajib: (1) Jangan reka fakta atau angka. Kalau data tiada, kata TIADA DATA. (2) Apa-apa yang melibatkan duit, harga, bayaran, janji kepada customer, hantar email atau post, belanja iklan: buat DRAF sahaja dan minta Boss approve. (3) Jawab dalam Bahasa Melayu santai, ringkas, guna RM untuk duit.",
+          "maxIterations": 10
+        }
+      },
+      "id": "87242ecd-15e1-4c49-90f7-d88f9e9f0f55",
+      "name": "Hakim - CFO & Financial Analyst",
+      "type": "@n8n/n8n-nodes-langchain.agentTool",
+      "typeVersion": 2.2,
+      "position": [
+        1660,
+        860
+      ]
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "id",
+          "value": "claude-sonnet-5-5"
+        },
+        "options": {
+          "maxTokensToSample": 4096
+        }
+      },
+      "id": "ddb64567-d053-44f4-a696-cff371acf598",
+      "name": "Model Hakim",
+      "type": "@n8n/n8n-nodes-langchain.lmChatAnthropic",
+      "typeVersion": 1.3,
+      "position": [
+        1520,
+        1120
+      ],
+      "credentials": {
+        "anthropicApi": {
+          "id": "",
+          "name": "Anthropic account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "id": "72b41122-0aca-4dc8-a622-11c374d72fe5",
+      "name": "Kalkulator",
+      "type": "@n8n/n8n-nodes-langchain.toolCalculator",
+      "typeVersion": 1,
+      "position": [
+        1660,
+        1120
+      ]
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "mode": "url",
+          "value": "https://docs.google.com/spreadsheets/d/GANTI_DENGAN_ID_SHEET/edit"
+        },
+        "sheetName": {
+          "__rl": true,
+          "mode": "name",
+          "value": "transaksi"
+        },
+        "options": {}
+      },
+      "id": "270ffcf9-bb7f-4420-96ee-c3f62dea01e7",
+      "name": "Sheet: baca transaksi",
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.6,
+      "position": [
+        1800,
+        1120
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "toolDescription": "Sara (CMO & Creative Strategist). Idea content, digital product, kempen, iklan Meta/TikTok dan simpan idea dalam Google Sheet.",
+        "text": "={{ $fromAI('tugasan', 'Tugasan lengkap untuk agent ini, termasuk semua konteks yang dia perlukan', 'string') }}",
+        "options": {
+          "systemMessage": "Kau ialah Sara, CMO & Creative Strategist di Ascent Circle. Skop kau: Idea content, digital product, kempen, iklan Meta/TikTok dan simpan idea dalam Google Sheet. Kau terima tugasan daripada Aina (Team Coordinator) dan pulangkan hasil yang lengkap. Peraturan wajib: (1) Jangan reka fakta atau angka. Kalau data tiada, kata TIADA DATA. (2) Apa-apa yang melibatkan duit, harga, bayaran, janji kepada customer, hantar email atau post, belanja iklan: buat DRAF sahaja dan minta Boss approve. (3) Jawab dalam Bahasa Melayu santai, ringkas, guna RM untuk duit.",
+          "maxIterations": 10
+        }
+      },
+      "id": "058f104b-3ae2-48c4-bfae-e53f288212a6",
+      "name": "Sara - CMO & Creative Strategist",
+      "type": "@n8n/n8n-nodes-langchain.agentTool",
+      "typeVersion": 2.2,
+      "position": [
+        2180,
+        860
+      ]
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "id",
+          "value": "claude-sonnet-5-5"
+        },
+        "options": {
+          "maxTokensToSample": 4096
+        }
+      },
+      "id": "cd41cefa-0fb5-493b-aacf-b8a7e6b29e05",
+      "name": "Model Sara",
+      "type": "@n8n/n8n-nodes-langchain.lmChatAnthropic",
+      "typeVersion": 1.3,
+      "position": [
+        2040,
+        1120
+      ],
+      "credentials": {
+        "anthropicApi": {
+          "id": "",
+          "name": "Anthropic account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "mode": "url",
+          "value": "https://docs.google.com/spreadsheets/d/GANTI_DENGAN_ID_SHEET/edit"
+        },
+        "sheetName": {
+          "__rl": true,
+          "mode": "name",
+          "value": "idea"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {},
+          "matchingColumns": [],
+          "schema": []
+        },
+        "options": {}
+      },
+      "id": "46da3a95-b2b8-4c61-a6e3-15af2ed503e6",
+      "name": "Sheet: simpan idea",
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.6,
+      "position": [
+        2180,
+        1120
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "toolDescription": "Nadia (Social Media Manager). Tulis caption, skrip video, content calendar 7 hari, balasan komen. Semua dalam bentuk draf.",
+        "text": "={{ $fromAI('tugasan', 'Tugasan lengkap untuk agent ini, termasuk semua konteks yang dia perlukan', 'string') }}",
+        "options": {
+          "systemMessage": "Kau ialah Nadia, Social Media Manager di Ascent Circle. Skop kau: Tulis caption, skrip video, content calendar 7 hari, balasan komen. Semua dalam bentuk draf. Kau terima tugasan daripada Aina (Team Coordinator) dan pulangkan hasil yang lengkap. Peraturan wajib: (1) Jangan reka fakta atau angka. Kalau data tiada, kata TIADA DATA. (2) Apa-apa yang melibatkan duit, harga, bayaran, janji kepada customer, hantar email atau post, belanja iklan: buat DRAF sahaja dan minta Boss approve. (3) Jawab dalam Bahasa Melayu santai, ringkas, guna RM untuk duit.",
+          "maxIterations": 10
+        }
+      },
+      "id": "e66654d6-81f1-4249-88d6-6651a9e86472",
+      "name": "Nadia - Social Media Manager",
+      "type": "@n8n/n8n-nodes-langchain.agentTool",
+      "typeVersion": 2.2,
+      "position": [
+        2700,
+        860
+      ]
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "id",
+          "value": "claude-sonnet-5-5"
+        },
+        "options": {
+          "maxTokensToSample": 4096
+        }
+      },
+      "id": "5e630394-f0b4-484a-9918-d94f94977cc8",
+      "name": "Model Nadia",
+      "type": "@n8n/n8n-nodes-langchain.lmChatAnthropic",
+      "typeVersion": 1.3,
+      "position": [
+        2560,
+        1120
+      ],
+      "credentials": {
+        "anthropicApi": {
+          "id": "",
+          "name": "Anthropic account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "toolDescription": "Danial (Chief Technology Officer). Semua kerja teknikal: website, automasi n8n, VPS, debugging, dokumentasi teknikal.",
+        "text": "={{ $fromAI('tugasan', 'Tugasan lengkap untuk agent ini, termasuk semua konteks yang dia perlukan', 'string') }}",
+        "options": {
+          "systemMessage": "Kau ialah Danial, Chief Technology Officer di Ascent Circle. Skop kau: Semua kerja teknikal: website, automasi n8n, VPS, debugging, dokumentasi teknikal. Kau terima tugasan daripada Aina (Team Coordinator) dan pulangkan hasil yang lengkap. Peraturan wajib: (1) Jangan reka fakta atau angka. Kalau data tiada, kata TIADA DATA. (2) Apa-apa yang melibatkan duit, harga, bayaran, janji kepada customer, hantar email atau post, belanja iklan: buat DRAF sahaja dan minta Boss approve. (3) Jawab dalam Bahasa Melayu santai, ringkas, guna RM untuk duit.",
+          "maxIterations": 10
+        }
+      },
+      "id": "eb476021-04db-4ce2-9626-7ddcc745dc32",
+      "name": "Danial - Chief Technology Officer",
+      "type": "@n8n/n8n-nodes-langchain.agentTool",
+      "typeVersion": 2.2,
+      "position": [
+        3220,
+        860
+      ]
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "id",
+          "value": "claude-sonnet-5-5"
+        },
+        "options": {
+          "maxTokensToSample": 4096
+        }
+      },
+      "id": "fc0b7e61-b0da-429f-82fc-913aa969cc30",
+      "name": "Model Danial",
+      "type": "@n8n/n8n-nodes-langchain.lmChatAnthropic",
+      "typeVersion": 1.3,
+      "position": [
+        3080,
+        1120
+      ],
+      "credentials": {
+        "anthropicApi": {
+          "id": "",
+          "name": "Anthropic account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "toolDescription": "Rizq (Penyelidik Web). Cari maklumat terkini di internet (harga, berita, pesaing, saham) dan bagi ringkasan dengan link sumber.",
+        "text": "={{ $fromAI('tugasan', 'Tugasan lengkap untuk agent ini, termasuk semua konteks yang dia perlukan', 'string') }}",
+        "options": {
+          "systemMessage": "Kau ialah Rizq, Penyelidik Web di Ascent Circle. Skop kau: Cari maklumat terkini di internet (harga, berita, pesaing, saham) dan bagi ringkasan dengan link sumber. Kau terima tugasan daripada Aina (Team Coordinator) dan pulangkan hasil yang lengkap. Peraturan wajib: (1) Jangan reka fakta atau angka. Kalau data tiada, kata TIADA DATA. (2) Apa-apa yang melibatkan duit, harga, bayaran, janji kepada customer, hantar email atau post, belanja iklan: buat DRAF sahaja dan minta Boss approve. (3) Jawab dalam Bahasa Melayu santai, ringkas, guna RM untuk duit.",
+          "maxIterations": 10
+        }
+      },
+      "id": "05340523-ab2a-4724-a4a8-d56c210cf05f",
+      "name": "Rizq - Penyelidik Web",
+      "type": "@n8n/n8n-nodes-langchain.agentTool",
+      "typeVersion": 2.2,
+      "position": [
+        3740,
+        860
+      ]
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "id",
+          "value": "claude-sonnet-5-5"
+        },
+        "options": {
+          "maxTokensToSample": 4096
+        }
+      },
+      "id": "4328b0f4-1ebd-4cb1-aea2-86466c2b5d9e",
+      "name": "Model Rizq",
+      "type": "@n8n/n8n-nodes-langchain.lmChatAnthropic",
+      "typeVersion": 1.3,
+      "position": [
+        3600,
+        1120
+      ],
+      "credentials": {
+        "anthropicApi": {
+          "id": "",
+          "name": "Anthropic account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "toolDescription": "Cari di internet. Pulangkan hasil carian dengan URL.",
+        "method": "POST",
+        "url": "https://api.tavily.com/search",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\"query\": \"{query}\", \"max_results\": 5}",
+        "placeholderDefinitions": {
+          "values": [
+            {
+              "name": "query",
+              "description": "Kata carian",
+              "type": "string"
+            }
+          ]
+        }
+      },
+      "id": "c157dabc-6014-4535-8a26-1d0bd56df892",
+      "name": "Carian web (Tavily)",
+      "type": "@n8n/n8n-nodes-langchain.toolHttpRequest",
+      "typeVersion": 1.1,
+      "position": [
+        3740,
+        1120
+      ],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "",
+          "name": "Tavily API (Authorization: Bearer)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const out = $input.first().json;\nconst task = String($('Arahan').first().json.text || '').slice(0, 200);\nconst names = ['Mira','Hakim','Sara','Nadia','Danial','Rizq'];\nconst used = new Set();\nfor (const s of (out.intermediateSteps || [])) {\n  const t = String(s.action?.tool || '');\n  for (const n of names) if (t.includes(n)) used.add(n);\n}\nconst now = new Date().toISOString();\nconst reply = String(out.output || '').slice(0, 3900);\nconst rows = [{ masa: now, agent: 'Aina', status: 'Selesai', tugasan: task, ringkasan: reply.slice(0, 300) }];\nfor (const n of used) rows.push({ masa: now, agent: n, status: 'Selesai', tugasan: task, ringkasan: 'Dipanggil oleh Aina' });\nreturn rows.map((r, i) => ({ json: { ...r, reply: i === 0 ? reply : '' } }));"
+      },
+      "id": "e8dc6968-dd65-4818-b362-859d6d4ed8e6",
+      "name": "Siapa yang bekerja",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2000,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "mode": "url",
+          "value": "https://docs.google.com/spreadsheets/d/GANTI_DENGAN_ID_SHEET/edit"
+        },
+        "sheetName": {
+          "__rl": true,
+          "mode": "name",
+          "value": "log"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "masa": "={{ $json.masa }}",
+            "agent": "={{ $json.agent }}",
+            "status": "={{ $json.status }}",
+            "tugasan": "={{ $json.tugasan }}",
+            "ringkasan": "={{ $json.ringkasan }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "masa",
+              "displayName": "masa",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "agent",
+              "displayName": "agent",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "status",
+              "displayName": "status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "tugasan",
+              "displayName": "tugasan",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "ringkasan",
+              "displayName": "ringkasan",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "ed17e05e-a59f-43e1-94b4-aae7b0359383",
+      "name": "Tulis log",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        2220,
+        200
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "",
+          "name": "Google Sheets account"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Arahan').first().json.chatId }}",
+        "text": "={{ $('Siapa yang bekerja').first().json.reply || 'Siap, Boss.' }}",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "id": "70268920-5591-4400-9769-4a247bed42f4",
+      "name": "Balas Boss",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        2440,
+        200
+      ],
+      "credentials": {
+        "telegramApi": {
+          "id": "",
+          "name": "Telegram bot"
+        }
+      },
+      "executeOnce": true
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Arahan').first().json.chatId }}",
+        "text": "=Maaf Boss, ada masalah teknikal: {{ $json.error?.message || 'ralat tidak diketahui' }}. Danial boleh semak log n8n.",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "id": "1dce8b09-87e8-477a-84a2-db445b0fbf39",
+      "name": "Mesej ralat",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        2000,
+        40
+      ],
+      "credentials": {
+        "telegramApi": {
+          "id": "",
+          "name": "Telegram bot"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Telegram Trigger": {
+      "main": [
+        [
+          {
+            "node": "Boss sahaja?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Boss sahaja?": {
+      "main": [
+        [
+          {
+            "node": "Mesej suara?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mesej suara?": {
+      "main": [
+        [
+          {
+            "node": "Muat turun suara",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Teks",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Muat turun suara": {
+      "main": [
+        [
+          {
+            "node": "Transkrip suara",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Transkrip suara": {
+      "main": [
+        [
+          {
+            "node": "Teks dari suara",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Teks dari suara": {
+      "main": [
+        [
+          {
+            "node": "Arahan",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Teks": {
+      "main": [
+        [
+          {
+            "node": "Arahan",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Arahan": {
+      "main": [
+        [
+          {
+            "node": "Tanda Aina sibuk",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Aina - Team Coordinator",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Claude Opus 5.5 (Aina)": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Aina - Team Coordinator",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Memory perbualan": {
+      "ai_memory": [
+        [
+          {
+            "node": "Aina - Team Coordinator",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Think": {
+      "ai_tool": [
+        [
+          {
+            "node": "Aina - Team Coordinator",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mira - Admin (Email & Calendar)": {
+      "ai_tool": [
+        [
+          {
+            "node": "Aina - Team Coordinator",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Model Mira": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Mira - Admin (Email & Calendar)",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gmail: cari email": {
+      "ai_tool": [
+        [
+          {
+            "node": "Mira - Admin (Email & Calendar)",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gmail: buat draf": {
+      "ai_tool": [
+        [
+          {
+            "node": "Mira - Admin (Email & Calendar)",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Calendar: lihat jadual": {
+      "ai_tool": [
+        [
+          {
+            "node": "Mira - Admin (Email & Calendar)",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Calendar: buat event": {
+      "ai_tool": [
+        [
+          {
+            "node": "Mira - Admin (Email & Calendar)",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Hakim - CFO & Financial Analyst": {
+      "ai_tool": [
+        [
+          {
+            "node": "Aina - Team Coordinator",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Model Hakim": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Hakim - CFO & Financial Analyst",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Kalkulator": {
+      "ai_tool": [
+        [
+          {
+            "node": "Hakim - CFO & Financial Analyst",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Sheet: baca transaksi": {
+      "ai_tool": [
+        [
+          {
+            "node": "Hakim - CFO & Financial Analyst",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Sara - CMO & Creative Strategist": {
+      "ai_tool": [
+        [
+          {
+            "node": "Aina - Team Coordinator",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Model Sara": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Sara - CMO & Creative Strategist",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Sheet: simpan idea": {
+      "ai_tool": [
+        [
+          {
+            "node": "Sara - CMO & Creative Strategist",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Nadia - Social Media Manager": {
+      "ai_tool": [
+        [
+          {
+            "node": "Aina - Team Coordinator",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Model Nadia": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Nadia - Social Media Manager",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Danial - Chief Technology Officer": {
+      "ai_tool": [
+        [
+          {
+            "node": "Aina - Team Coordinator",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Model Danial": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Danial - Chief Technology Officer",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Rizq - Penyelidik Web": {
+      "ai_tool": [
+        [
+          {
+            "node": "Aina - Team Coordinator",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Model Rizq": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Rizq - Penyelidik Web",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Carian web (Tavily)": {
+      "ai_tool": [
+        [
+          {
+            "node": "Rizq - Penyelidik Web",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aina - Team Coordinator": {
+      "main": [
+        [
+          {
+            "node": "Siapa yang bekerja",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Mesej ralat",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Siapa yang bekerja": {
+      "main": [
+        [
+          {
+            "node": "Tulis log",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Tulis log": {
+      "main": [
+        [
+          {
+            "node": "Balas Boss",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "timezone": "Asia/Kuala_Lumpur"
+  },
+  "pinData": {}
+}

@@ -1,0 +1,243 @@
+<title>Pejabat Maya Ascent Circle</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: lantai pejabat isometrik di atas, panel agent + suapan aktiviti di bawah */
+:root{
+  --bg:#0c1220; --panel:#131b2d; --panel2:#1a2440; --ink:#e8ecf5; --muted:#8a96b2; --line:#263252;
+  --floorA:#8a5a35; --floorB:#7a4e2d; --desk:#d9cfc0; --deskSide:#a89b88; --accent:#7cc4ff;
+  --work:#ffb547; --done:#4fd18b; --rest:#c58bff; --idle:#8a96b2;
+  --display:"Sora",system-ui,sans-serif; --body:"Inter",system-ui,sans-serif; --mono:"JetBrains Mono",ui-monospace,monospace;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:14px;line-height:1.5}
+.wrap{max-width:1100px;margin:0 auto;padding-block:18px 40px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:grid;gap:14px}
+header{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:baseline;justify-content:space-between}
+h1{font-family:var(--display);font-size:clamp(20px,4vw,28px);margin:0;letter-spacing:-.01em}
+.upd{color:var(--muted);font-family:var(--mono);font-size:12.5px}
+.stage{position:relative;background:radial-gradient(ellipse at 50% 30%,#18213a,#0c1220 70%);border:1px solid var(--line);border-radius:16px;overflow:hidden}
+.stage svg{display:block;width:100%;height:auto}
+.ov{position:absolute;inset:0;pointer-events:none}
+.bub{position:absolute;transform:translate(-50%,-100%);pointer-events:auto;cursor:pointer;background:rgba(12,18,32,.88);border:1.5px solid var(--c,var(--idle));border-radius:999px;padding:3px 10px 3px 8px;font-size:12px;white-space:nowrap;max-width:46vw;overflow:hidden;text-overflow:ellipsis;display:flex;gap:6px;align-items:center;transition:left 1.6s ease,top 1.6s ease}
+.bub b{font-weight:600}.bub span{color:var(--muted)}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--c,var(--idle));flex:none}
+.bub.work .dot{animation:pulse 1.1s infinite}
+@keyframes pulse{50%{opacity:.25}}
+.person{transition:transform 1.6s ease}
+.person.work .head{animation:bob .8s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(-1.5px)}}
+.controls{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+button,input{font:inherit;color:var(--ink)}
+button{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:7px 14px;font-weight:600;cursor:pointer}
+button[aria-pressed="true"]{border-color:var(--work);color:var(--work)}
+button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+input{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:7px 10px;min-width:0;flex:1 1 260px;font-family:var(--mono);font-size:12.5px}
+.clock{color:var(--muted);font-family:var(--mono);font-size:12.5px;margin-left:auto}
+.note{font-size:12.5px;color:var(--muted);margin:0}
+.note.err{color:var(--work)}
+.grid{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:14px}
+@media (max-width:760px){.grid{grid-template-columns:1fr}}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px 16px;display:grid;gap:10px;min-width:0}
+.card h2{font-family:var(--display);font-size:16px;margin:0}
+.who{display:flex;gap:12px;align-items:center;border-top:3px solid var(--c,var(--idle));padding-top:10px}
+.av{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;font-family:var(--display);font-weight:700;background:var(--c,var(--idle));color:#0c1220;flex:none}
+.who .r{color:var(--muted);font-size:13px}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;font-size:13px}
+.kv dt{color:var(--muted)}.kv dd{margin:0;overflow-wrap:anywhere}
+.pill{display:inline-flex;gap:6px;align-items:center;font-size:12px;font-weight:600;padding:2px 10px;border-radius:999px;border:1px solid var(--c);color:var(--c)}
+.roster{display:flex;flex-wrap:wrap;gap:6px}
+.roster button{display:flex;gap:6px;align-items:center;padding:5px 10px;font-weight:500;font-size:13px}
+.feed{list-style:none;margin:0;padding:0;display:grid;gap:8px;max-height:340px;overflow:auto}
+.feed li{display:grid;grid-template-columns:auto 1fr;gap:2px 10px;font-size:13px;border-bottom:1px solid var(--line);padding-bottom:8px}
+.feed time{font-family:var(--mono);color:var(--muted);font-size:12px}
+.feed .t{grid-column:2;color:var(--muted);overflow-wrap:anywhere}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+
+<div class="wrap">
+  <header>
+    <h1>Pejabat Maya · Ascent Circle</h1>
+    <span class="upd" id="upd">Memuatkan…</span>
+  </header>
+
+  <div class="stage" id="stage">
+    <svg id="svg" viewBox="0 0 1000 560" role="img" aria-label="Pelan lantai pejabat dengan meja setiap agent"></svg>
+    <div class="ov" id="ov"></div>
+  </div>
+
+  <div class="controls">
+    <button id="bLive" type="button" aria-pressed="false">● Live</button>
+    <button id="bDemo" type="button" aria-pressed="true">Demo</button>
+    <button id="bMotion" type="button" aria-pressed="true">Gerakan: On</button>
+    <span class="clock" id="clock"></span>
+  </div>
+  <div class="controls">
+    <input id="api" type="url" placeholder="https://n8n.domain-awak.com/webhook/agent-status" aria-label="URL status n8n">
+    <button id="bSave" type="button">Sambung</button>
+  </div>
+  <p class="note" id="msg">Mod demo: aktiviti di bawah ialah simulasi, bukan kerja sebenar. Masukkan URL webhook status n8n untuk mod Live.</p>
+
+  <div class="grid">
+    <section class="card" aria-live="polite">
+      <h2>Agent</h2>
+      <div class="roster" id="roster"></div>
+      <div id="detail"></div>
+    </section>
+    <section class="card">
+      <h2>Aktiviti terkini</h2>
+      <ul class="feed" id="feed"></ul>
+    </section>
+  </div>
+</div>
+
+<script>
+const AGENTS=[
+ {id:"Aina",role:"Team Coordinator",model:"Claude Opus 5.5",desk:[5,3.6],color:"#7cc4ff",tools:"Serah tugas, gabung hasil, lapor kepada Boss di Telegram"},
+ {id:"Mira",role:"Admin · Email & Calendar",model:"Claude Haiku 5.5",desk:[1.6,1.4],color:"#ff8fb1",tools:"Gmail (cari, draf), Google Calendar"},
+ {id:"Hakim",role:"CFO & Financial Analyst",model:"Claude Sonnet 5.5",desk:[7.8,1.4],color:"#4fd18b",tools:"Kalkulator, Google Sheet transaksi"},
+ {id:"Sara",role:"CMO & Creative Strategist",model:"Claude Sonnet 5.5",desk:[1.6,6],color:"#ffb547",tools:"Simpan idea ke Google Sheet"},
+ {id:"Nadia",role:"Social Media Manager",model:"Claude Sonnet 5.5",desk:[4.6,7.4],color:"#c58bff",tools:"Draf caption, skrip, content calendar"},
+ {id:"Danial",role:"Chief Technology Officer",model:"Claude Sonnet 5.5",desk:[8.2,6],color:"#5fd4d0",tools:"Website, n8n, VPS, dokumentasi"},
+ {id:"Rizq",role:"Penyelidik Web",model:"Claude Sonnet 5.5",desk:[8.6,3.6],color:"#f2e86d",tools:"Carian web (Tavily)"}
+];
+const PANTRY=[[0.7,3.3],[1.1,3.9],[0.6,4.4]];
+const ST={Bekerja:{c:"var(--work)",k:"work",t:"Bekerja"},Selesai:{c:"var(--done)",k:"done",t:"Selesai"},Rehat:{c:"var(--rest)",k:"rest",t:"Rehat kopi"},Idle:{c:"var(--idle)",k:"idle",t:"Idle"}};
+const TW=96,TH=48,OX=500,OY=70;
+const iso=(gx,gy)=>[OX+(gx-gy)*TW/2,OY+(gx+gy)*TH/2];
+const svg=document.getElementById("svg"),ov=document.getElementById("ov");
+const NS="http://www.w3.org/2000/svg";
+const el=(t,a,p=svg)=>{const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);p.appendChild(e);return e};
+const poly=pts=>pts.map(p=>p.join(",")).join(" ");
+let motion=true; try{motion=localStorage.getItem("office-motion")!=="off"}catch(e){}
+
+function box(gx,gy,w,d,h,top,side,p=svg){
+  const a=iso(gx,gy),b=iso(gx+w,gy),c=iso(gx+w,gy+d),dd=iso(gx,gy+d);
+  const up=q=>[q[0],q[1]-h];
+  el("polygon",{points:poly([dd,c,up(c),up(dd)]),fill:side},p);
+  el("polygon",{points:poly([c,b,up(b),up(c)]),fill:side,opacity:.8},p);
+  el("polygon",{points:poly([up(a),up(b),up(c),up(dd)]),fill:top},p);
+}
+function draw(){
+  svg.innerHTML="";
+  // dinding kaca
+  const L=iso(0,0),R=iso(10,0),Lb=iso(0,9);
+  el("polygon",{points:poly([[L[0],L[1]-110],[R[0],R[1]-110],R,L]),fill:"#1d2a48"});
+  for(let i=0;i<=10;i++){const p=iso(i,0);el("line",{x1:p[0],y1:p[1],x2:p[0],y2:p[1]-110,stroke:"#0c1220","stroke-width":3})}
+  el("polygon",{points:poly([[L[0],L[1]-110],[Lb[0],Lb[1]-110],Lb,L]),fill:"#172238"});
+  // lantai papan kayu
+  for(let x=0;x<10;x++)for(let y=0;y<9;y++){
+    el("polygon",{points:poly([iso(x,y),iso(x+1,y),iso(x+1,y+1),iso(x,y+1)]),fill:(x+y)%2?"var(--floorA)":"var(--floorB)"});
+  }
+  // permaidani meja Aina
+  el("polygon",{points:poly([iso(3.8,2.6),iso(6.4,2.6),iso(6.4,4.8),iso(3.8,4.8)]),fill:"#2b3a5c",opacity:.85});
+  // pantri
+  box(0.1,2.7,0.5,2.2,26,"#cfd6e4","#8a94a8");
+  el("circle",{cx:iso(0.35,3.2)[0],cy:iso(0.35,3.2)[1]-30,r:5,fill:"#6b4a2b"});
+  const pl=iso(0.1,2.7);el("text",{x:pl[0]-10,y:pl[1]-36,fill:"#c8d0e2","font-size":12,"font-family":"Inter"}).textContent="Pantri";
+  // meja
+  AGENTS.forEach(a=>{
+    const [gx,gy]=a.desk;const big=a.id==="Aina";
+    box(gx-0.1,gy-0.9,big?1.6:1.1,big?0.8:0.6,22,"var(--desk)","var(--deskSide)");
+    const m=iso(gx+0.3,gy-0.7);el("rect",{x:m[0]-9,y:m[1]-46,width:18,height:13,rx:2,fill:"#0c1220",stroke:a.color,"stroke-width":1.5});
+  });
+  // pokok
+  [[9.4,0.4],[0.4,8.4],[9.4,8.4],[5,0.4]].forEach(([x,y])=>{const p=iso(x,y);el("ellipse",{cx:p[0],cy:p[1]-18,rx:9,ry:16,fill:"#2f8f5b"});el("rect",{x:p[0]-6,y:p[1]-4,width:12,height:8,fill:"#5a3b22"})});
+  // orang
+  AGENTS.forEach(a=>{
+    const g=el("g",{class:"person",id:"p-"+a.id});
+    el("ellipse",{cx:0,cy:0,rx:10,ry:4,fill:"#000",opacity:.3},g);
+    el("rect",{x:-7,y:-26,width:14,height:22,rx:6,fill:a.color},g);
+    const h=el("g",{class:"head"},g);el("circle",{cx:0,cy:-33,r:7,fill:"#f1d3b3"},h);
+    a.g=g;
+  });
+}
+draw();
+
+const state={}; AGENTS.forEach(a=>state[a.id]={status:"Idle",task:"",summary:"",at:null});
+let feed=[],sel="Aina",mode="demo",api="";
+try{api=localStorage.getItem("office-api")||""}catch(e){}
+document.getElementById("api").value=api;
+
+function spot(a){
+  const s=state[a.id].status;
+  if(s==="Rehat"){const i=AGENTS.indexOf(a)%PANTRY.length;return PANTRY[i]}
+  return [a.desk[0]+0.3,a.desk[1]+0.15];
+}
+function place(){
+  ov.innerHTML="";
+  AGENTS.forEach(a=>{
+    const st=ST[state[a.id].status]||ST.Idle;const [x,y]=iso(...spot(a));
+    a.g.setAttribute("transform",`translate(${x},${y})`);a.g.setAttribute("class","person "+(motion?st.k:""));
+    const b=document.createElement("div");b.className="bub "+(motion?st.k:"");b.style.setProperty("--c",st.c);
+    b.style.left=(x/1000*100)+"%";b.style.top=((y-46)/560*100)+"%";
+    const txt=state[a.id].status==="Bekerja"&&state[a.id].task?state[a.id].task:st.t;
+    b.innerHTML=`<i class="dot"></i><b>${esc(a.id)}</b><span>${esc(txt)}</span>`;
+    b.title=a.role;b.onclick=()=>{sel=a.id;panel()};ov.appendChild(b);
+  });
+}
+const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const fmt=t=>t?new Date(t).toLocaleTimeString("ms-MY",{hour:"2-digit",minute:"2-digit",timeZone:"Asia/Kuala_Lumpur"}):"–";
+function ago(t){if(!t)return"";const m=Math.round((Date.now()-new Date(t))/60000);return m<1?"baru sahaja":m+" min lalu"}
+function panel(){
+  document.getElementById("roster").innerHTML=AGENTS.map(a=>{const st=ST[state[a.id].status]||ST.Idle;
+    return `<button type="button" data-a="${a.id}" aria-pressed="${a.id===sel}" style="--c:${st.c}"><i class="dot"></i>${a.id}</button>`}).join("");
+  document.querySelectorAll("[data-a]").forEach(b=>b.onclick=()=>{sel=b.dataset.a;panel()});
+  const a=AGENTS.find(x=>x.id===sel),s=state[sel],st=ST[s.status]||ST.Idle;
+  document.getElementById("detail").innerHTML=`<div class="who" style="--c:${a.color}"><div class="av">${a.id[0]}</div>
+   <div><div style="font-weight:600">${a.id}</div><div class="r">${esc(a.role)}</div></div>
+   <span class="pill" style="--c:${st.c};margin-left:auto"><i class="dot"></i>${st.t}</span></div>
+   <dl class="kv"><dt>Model</dt><dd>${a.model}</dd><dt>Tools</dt><dd>${esc(a.tools)}</dd>
+   <dt>Tugasan</dt><dd>${esc(s.task||"–")}</dd><dt>Hasil</dt><dd>${esc(s.summary||"–")}</dd><dt>Kemas kini</dt><dd>${fmt(s.at)} ${ago(s.at)}</dd></dl>`;
+}
+function renderFeed(){
+  document.getElementById("feed").innerHTML=feed.slice(0,30).map(f=>`<li><time>${fmt(f.masa)}</time><div><b>${esc(f.agent)}</b> · ${esc(f.status)}</div><div class="t">${esc(f.tugasan||f.ringkasan||"")}</div></li>`).join("")||`<li><div></div><div class="t">Belum ada aktiviti.</div></li>`;
+}
+function apply(rows){
+  rows.forEach(r=>{if(!state[r.agent])return;
+    let s=r.status;const age=(Date.now()-new Date(r.masa))/60000;
+    if(s==="Selesai"&&age>30)s="Rehat"; if(s==="Bekerja"&&age>15)s="Idle";
+    state[r.agent]={status:s,task:r.tugasan||"",summary:r.ringkasan||"",at:r.masa}});
+  place();panel();renderFeed();
+  document.getElementById("upd").textContent=(mode==="live"?"Live":"Demo")+" · dikemas kini "+fmt(new Date());
+}
+// ----- Live
+let timer=null;
+async function poll(){
+  const msg=document.getElementById("msg");
+  try{const r=await fetch(api,{cache:"no-store"});if(!r.ok)throw new Error("HTTP "+r.status);
+    const j=await r.json();feed=Array.isArray(j.recent)?j.recent:[];
+    apply(Object.values(j.agents||{}));msg.className="note";msg.textContent="Live: membaca status daripada n8n setiap 15 saat.";
+  }catch(e){msg.className="note err";msg.textContent="Tak dapat baca URL status ("+e.message+"). Semak URL webhook dan pastikan workflow Status API aktif. Dalam preview claude.ai sambungan luar disekat, jadi buka fail ini dari server sendiri.";}
+}
+// ----- Demo (simulasi)
+const DEMO=[
+ ["Aina","Boss minta report jualan semalam + idea content minggu ni"],["Hakim","Kira untung kasar semalam dari sheet transaksi"],
+ ["Sara","3 idea content untuk kedai online"],["Nadia","Draf caption Instagram untuk idea Sara"],["Mira","Ringkas 12 email belum baca"],
+ ["Rizq","Cari harga emas semasa untuk nisab zakat"],["Danial","Semak kenapa webhook Telegram lambat"]];
+let di=0;
+function demoTick(){
+  const [ag,task]=DEMO[di%DEMO.length];di++;const now=new Date().toISOString();
+  const prev=feed.find(f=>f.agent===ag&&f.status==="Bekerja");
+  const row={masa:now,agent:ag,status:"Bekerja",tugasan:task,ringkasan:""};feed.unshift(row);
+  setTimeout(()=>{if(mode!=="demo")return;const done={masa:new Date().toISOString(),agent:ag,status:"Selesai",tugasan:task,ringkasan:"(demo) Siap dan dihantar kepada Aina"};feed.unshift(done);apply([done])},6000);
+  apply([row]);
+}
+function setMode(m){
+  mode=m;clearInterval(timer);
+  document.getElementById("bLive").setAttribute("aria-pressed",m==="live");document.getElementById("bDemo").setAttribute("aria-pressed",m==="demo");
+  AGENTS.forEach(a=>state[a.id]={status:"Idle",task:"",summary:"",at:null});feed=[];
+  if(m==="live"){if(!api){document.getElementById("msg").className="note err";document.getElementById("msg").textContent="Masukkan URL webhook status n8n dahulu.";place();panel();renderFeed();return}poll();timer=setInterval(poll,15000)}
+  else{document.getElementById("msg").className="note";document.getElementById("msg").textContent="Mod demo: aktiviti di bawah ialah simulasi, bukan kerja sebenar. Masukkan URL webhook status n8n untuk mod Live.";
+    state.Hakim={status:"Rehat",task:"",summary:"",at:new Date(Date.now()-40*60000).toISOString()};demoTick();timer=setInterval(demoTick,4500)}
+}
+document.getElementById("bLive").onclick=()=>setMode("live");
+document.getElementById("bDemo").onclick=()=>setMode("demo");
+document.getElementById("bSave").onclick=()=>{const v=document.getElementById("api").value.trim();
+  if(!/^https?:\/\//i.test(v)){document.getElementById("msg").className="note err";document.getElementById("msg").textContent="URL mesti bermula dengan https://";return}
+  api=v;try{localStorage.setItem("office-api",v)}catch(e){}setMode("live")};
+document.getElementById("bMotion").onclick=e=>{motion=!motion;e.target.textContent="Gerakan: "+(motion?"On":"Off");e.target.setAttribute("aria-pressed",motion);try{localStorage.setItem("office-motion",motion?"on":"off")}catch(x){}place()};
+document.getElementById("bMotion").textContent="Gerakan: "+(motion?"On":"Off");
+setInterval(()=>{document.getElementById("clock").textContent=new Date().toLocaleTimeString("ms-MY",{hour:"2-digit",minute:"2-digit",timeZone:"Asia/Kuala_Lumpur"})+" KL"},1000);
+setMode(api?"live":"demo");
+</script>

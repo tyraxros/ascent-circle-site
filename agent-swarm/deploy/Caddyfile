@@ -1,0 +1,8 @@
+{$N8N_DOMAIN} {
+	# Pejabat Maya di https://domain/pejabat/
+	handle_path /pejabat/* {
+		root * /srv/office
+		file_server
+	}
+	reverse_proxy n8n:5678
+}

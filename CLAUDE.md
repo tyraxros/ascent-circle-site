@@ -32,5 +32,6 @@ Kemas kini bila ada maklumat baru (nama bisnes, client, harga, gaya report).
 - `data/` — template data (transaksi, bisnes). Data sebenar boleh duduk di Google Sheet.
 - `tools/cukai-zakat.html` — kalkulator cukai + zakat + untung bersih untuk semua bisnes.
 - `holistic-living/index.html` — web app Holistic Living (Botanea): post Threads disusun ikut tiang, topik, proof.
+- `agent-swarm/` — Telegram Agent Swarm (n8n + Claude): Aina (coordinator) + 6 agent, Pejabat Maya, panduan VPS.
 - `docs/PELAN-AGENTIC.md` — pelan setup agentic AI fasa demi fasa.
 - `.claude/skills/` — SOP setiap peranan.

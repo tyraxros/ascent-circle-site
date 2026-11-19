@@ -1,0 +1,131 @@
+{
+  "name": "Ascent Circle - Status API (Pejabat Maya)",
+  "nodes": [
+    {
+      "parameters": {
+        "path": "agent-status",
+        "responseMode": "responseNode",
+        "options": {
+          "allowedOrigins": "*"
+        }
+      },
+      "id": "987b9384-ec53-4c09-8ab9-2458b5b3d615",
+      "name": "Webhook status",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        0,
+        0
+      ],
+      "webhookId": "c73683d8-ce0a-4ca7-be28-0bc30338c2af"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "mode": "url",
+          "value": "https://docs.google.com/spreadsheets/d/GANTI_DENGAN_ID_SHEET/edit"
+        },
+        "sheetName": {
+          "__rl": true,
+          "mode": "name",
+          "value": "log"
+        },
+        "options": {}
+      },
+      "id": "334c085a-7927-4612-a68f-6099bb3b5aaf",
+      "name": "Baca log",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        220,
+        0
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "",
+          "name": "Google Sheets account"
+        }
+      },
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "jsCode": "const rows = $input.all().map(i => i.json).filter(r => r.agent);\nconst latest = {};\nfor (const r of rows) latest[r.agent] = r;\nconst recent = rows.slice(-30).reverse();\nreturn [{ json: { updated: new Date().toISOString(), agents: latest, recent } }];"
+      },
+      "id": "f480276b-4ace-4da1-bc6f-f4364841a5b1",
+      "name": "Status terkini",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        440,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify($json) }}",
+        "options": {
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Access-Control-Allow-Origin",
+                "value": "*"
+              }
+            ]
+          }
+        }
+      },
+      "id": "816fdc37-be98-4f67-9080-04c5f5a697a0",
+      "name": "Hantar JSON",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        660,
+        0
+      ]
+    }
+  ],
+  "connections": {
+    "Webhook status": {
+      "main": [
+        [
+          {
+            "node": "Baca log",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Baca log": {
+      "main": [
+        [
+          {
+            "node": "Status terkini",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Status terkini": {
+      "main": [
+        [
+          {
+            "node": "Hantar JSON",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "timezone": "Asia/Kuala_Lumpur"
+  },
+  "pinData": {}
+}

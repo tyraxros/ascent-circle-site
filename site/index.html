@@ -8,7 +8,16 @@
 <meta name="theme-color" content="#04070F">
 <meta name="color-scheme" content="dark">
 <title>Warung Athirah &middot; Athirah Roslan</title>
-<meta name="description" content="Warung Athirah. Tarik kerusi, duduk dulu. Satu surat setiap pagi Jumaat daripada Athirah Roslan.">
+<meta name="description" content="Warung Athirah. Tarik kerusi, duduk dulu. Borak tentang diri, buku, makanan, iman, warisan dan hidup harian. Satu surat setiap pagi Jumaat daripada Athirah Roslan.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Warung Athirah &middot; Athirah Roslan">
+<meta property="og:description" content="Tarik kerusi, duduk dulu. Setiap bulan satu tema, setiap pagi Jumaat satu surat.">
+<meta property="og:locale" content="ms_MY">
+<meta name="twitter:card" content="summary">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Person","name":"Athirah Roslan","description":"Pencerita dan pencipta kandungan dari Malaysia. Menulis tentang diri, buku, makanan, iman, warisan dan hidup harian.","nationality":"Malaysia","knowsLanguage":["ms","en"],
+"sameAs":["https://www.instagram.com/athirahhroslan","https://www.tiktok.com/@athirahhroslan","https://www.youtube.com/@athirahhroslan","https://www.threads.com/@athirahhroslan"]}
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Instrument+Serif:ital@0;1&family=Caveat:wght@400;600&family=Manrope:wght@400;500;600;700&family=Scheherazade+New:wght@400;700&family=VT323&display=swap" rel="stylesheet">
@@ -2795,6 +2804,89 @@ body[data-file="open"] .chan-nav{opacity:0;visibility:hidden}
 .wsub{margin-bottom:16px}
 @media (min-width:620px){ .wakaf .sheet{padding-top:30px} }
 
+
+/* ---------- CH 02 · JADUAL SIARAN, a teletext programme guide ---------- */
+#chg{
+  color:var(--ivory);
+  background:
+    repeating-linear-gradient(0deg, rgba(191,212,242,.035) 0 1px, transparent 1px 3px),
+    radial-gradient(ellipse at 50% -10%, #12305E 0%, #081833 48%, #040A16 100%);
+  background-attachment:fixed;
+}
+#chg .wrap{padding-top:calc(env(safe-area-inset-top) + 88px)}
+.jghead{margin-bottom:28px}
+.jgosd{
+  display:flex;justify-content:space-between;gap:12px;margin:0 0 18px;
+  font-family:var(--osd);font-size:20px;letter-spacing:.08em;color:var(--phosphor);
+  border-bottom:1px dashed rgba(191,212,242,.3);padding-bottom:8px;
+}
+.jgosd span:last-child{color:var(--tungsten)}
+#chg h2{
+  margin:0;font-family:var(--display);font-weight:400;text-transform:uppercase;
+  font-size:clamp(34px,9vw,64px);line-height:.98;letter-spacing:.01em;
+}
+#chg h2 b{color:var(--lamp);font-weight:400}
+.jglede{margin:16px 0 0;font-family:var(--voice);font-size:clamp(19px,4.6vw,24px);line-height:1.45;color:rgba(237,241,248,.82);max-width:36ch}
+
+.jgnow{
+  position:relative;margin:0 0 30px;padding:22px 22px 20px;
+  background:linear-gradient(160deg, rgba(27,77,155,.42), rgba(12,42,85,.6));
+  border:1px solid rgba(232,201,138,.45);border-radius:6px;
+  box-shadow:0 0 0 4px rgba(4,7,15,.6), 0 18px 50px rgba(0,0,0,.45);
+}
+.jgflag{display:flex;align-items:center;gap:9px;margin:0 0 10px;font-family:var(--osd);font-size:19px;letter-spacing:.08em;color:var(--tungsten)}
+.jgflag i{width:9px;height:9px;border-radius:50%;background:#E5484D;box-shadow:0 0 10px #E5484D;animation:jgblink 1.6s steps(2) infinite}
+@keyframes jgblink{50%{opacity:.25}}
+.jgmon{margin:0;font-family:var(--osd);font-size:24px;letter-spacing:.14em;color:var(--phosphor)}
+.jgtheme{margin:2px 0 6px;font-family:var(--voice);font-style:italic;font-weight:400;font-size:clamp(30px,7.6vw,46px);line-height:1.05;color:#fff}
+.jgline{margin:0 0 16px;color:rgba(237,241,248,.85);font-size:16px;max-width:44ch}
+
+.jglist{list-style:none;margin:0;padding:0;border-top:1px solid rgba(191,212,242,.18)}
+.jglist li{
+  display:grid;grid-template-columns:58px 1fr;gap:4px 14px;align-items:start;
+  padding:13px 4px;border-bottom:1px solid rgba(191,212,242,.14);
+}
+.jglist .mo{font-family:var(--osd);font-size:24px;line-height:1.1;color:var(--lamp);letter-spacing:.06em}
+.jglist b{display:block;font-weight:700;font-size:16px;line-height:1.3}
+.jglist em{display:block;font-style:normal;font-size:14.5px;line-height:1.5;color:rgba(237,241,248,.68)}
+.jglist small{grid-column:2;font-family:var(--osd);font-size:17px;letter-spacing:.04em;color:var(--phosphor);opacity:.8}
+.jglist small:empty{display:none}
+.jglist li.past{opacity:.5}
+.jglist li.on{background:rgba(232,201,138,.1);box-shadow:inset 3px 0 0 var(--lamp)}
+.jglist li.on .mo::after{content:" \25B6";font-size:16px;color:#E5484D}
+.jgnote{margin:10px 0 0;font-size:12.5px;color:rgba(237,241,248,.55)}
+
+.jgblock{margin:44px 0 0}
+.jgblock h3{
+  margin:0 0 14px;font-family:var(--osd);font-weight:400;font-size:24px;letter-spacing:.1em;text-transform:uppercase;color:var(--tungsten);
+}
+.jgchips{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:8px}
+.jgchips li{padding:6px 12px;border:1px solid rgba(191,212,242,.3);border-radius:999px;font-size:13.5px;color:rgba(237,241,248,.86);background:rgba(10,19,34,.5)}
+.jgrules{margin:0;padding-left:1.3em;display:grid;gap:12px}
+.jgrules li{font-size:15.5px;line-height:1.6;color:rgba(237,241,248,.8)}
+.jgrules li::marker{font-family:var(--osd);color:var(--lamp)}
+.jgrules b{color:#fff}
+.jgsoon{margin:0 0 14px;font-family:var(--hand);font-size:clamp(22px,5.6vw,27px);line-height:1.3;color:var(--lamp)}
+.jgkitchen{list-style:none;margin:0 0 6px;padding:0;display:grid;gap:10px}
+.jgkitchen li{padding:14px 16px;border-left:3px solid var(--brass);background:rgba(58,38,23,.35);border-radius:0 4px 4px 0}
+.jgkitchen b{display:block;font-size:16px}
+.jgkitchen em{display:block;font-style:normal;font-size:14.5px;color:rgba(237,241,248,.72)}
+.jgcta{margin:16px 0 0}
+#chg .key{
+  display:inline-flex;align-items:center;min-height:44px;padding:0 20px;border-radius:999px;
+  background:var(--lamp);color:#0A1322;font-weight:700;font-size:13px;letter-spacing:.08em;text-transform:uppercase;
+  transition:background .2s,transform .2s;
+}
+#chg .key:hover{background:var(--tungsten);transform:translateY(-1px)}
+.jgend{padding:56px var(--pad) calc(var(--safe-b) + 40px);text-align:center}
+.jgend p{margin:0;font-family:var(--voice);font-style:italic;font-size:clamp(18px,4.6vw,22px);color:rgba(237,241,248,.6)}
+.golink{display:inline;padding:0;color:var(--lamp);text-decoration:underline;text-underline-offset:3px;font:inherit}
+@media (min-width:720px){
+  .jglist li{grid-template-columns:72px 1fr 170px;align-items:center}
+  .jglist small{grid-column:3;text-align:right}
+}
+@media (prefers-reduced-motion:reduce){ .jgflag i{animation:none} }
+
 </style>
 </head>
 <body data-stage="room">
@@ -2848,7 +2940,7 @@ var i=document.getElementById("intro");if(i){i.hidden=true;}}},7400);})();
   <p class="wordmark">ATHIRAH ROSLAN</p>
 
   <div class="deck">
-    <p class="teach">3 siaran &middot; pusing <em>dail</em> ni</p>
+    <p class="teach">4 siaran &middot; pusing <em>dail</em> ni</p>
     <div class="dial" role="group" aria-label="Pilih siaran">
       <button type="button" id="prev" aria-label="Siaran sebelum">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
@@ -3061,7 +3153,7 @@ var i=document.getElementById("intro");if(i){i.hidden=true;}}},7400);})();
       <div class="lines">
         <p class="fake">
           <span class="k" lang="ms">Nombor telefon</span>
-          <span class="v">012&ndash;345 6789</span>
+          <span class="v">012&ndash;xxx xxxx</span>
           <span class="j" lang="ms">Nombor ni tipu. Kalau awak call, bukan saya yang angkat.</span>
         </p>
         <a class="mail" href="mailto:athirahhroslan.work@gmail.com">
@@ -3091,7 +3183,7 @@ var i=document.getElementById("intro");if(i){i.hidden=true;}}},7400);})();
     </div>
 
     <div class="callfoot">
-      <p class="rise" lang="ms">Kalau awak lebih suka baca daripada bercakap, pusing dail ke siaran dua. Surat saya sampai setiap pagi Jumaat.</p>
+      <p class="rise" lang="ms">Nak tahu apa yang saya bualkan sepanjang tahun? <button type="button" class="golink" data-go="chg">Siaran dua &rarr; Jadual Siaran</button> Kalau awak lebih suka baca daripada bercakap, siaran tiga ialah Surat Jumaat.</p>
     </div>
   </div>
     </div>
@@ -3099,6 +3191,76 @@ var i=document.getElementById("intro");if(i){i.hidden=true;}}},7400);})();
 </section>
 
 <!-- ═══════════ CH 02 · WARTA JUMAAT ═══════════ -->
+<!-- ═══════════ CH 02 · JADUAL SIARAN (programme guide) ═══════════ -->
+<section class="channel" id="chg" aria-hidden="true" aria-labelledby="jgTitle">
+  <div class="wrap">
+
+    <header class="jghead">
+      <p class="jgosd rise" aria-hidden="true"><span>SIARAN 02</span><span>TELETEKS 100</span></p>
+      <h2 class="rise d1" id="jgTitle" lang="ms">Jadual Siaran <b>2027</b></h2>
+      <p class="jglede rise d2" lang="ms">Setiap bulan satu tema. Saya baca, saya cuba, saya fikir panjang sikit, lepas tu baru saya kongsi. Ini peta tahun depan, supaya awak tahu kerusi mana nak tarik.</p>
+    </header>
+
+    <article class="jgnow rise" id="jgNow" lang="ms" aria-live="polite">
+      <p class="jgflag"><i aria-hidden="true"></i><span id="jgFlag">PERDANA &middot; 1 JAN 2027</span></p>
+      <p class="jgmon" id="jgMon">JANUARI</p>
+      <h3 class="jgtheme" id="jgTheme">The Art of Becoming</h3>
+      <p class="jgline" id="jgLine">Seni menjadi diri yang lebih baik, tanpa membenci diri yang sekarang.</p>
+      <p class="jgcta"><button type="button" class="key" data-go="ch2">Dapatkan surat bulan ini</button></p>
+    </article>
+
+    <ol class="jglist" id="jgList" lang="ms">
+      <li data-m="1"><span class="mo">JAN</span><div><b>The Art of Becoming</b><em>Diri, tabiat, perhatian dan rasa hormat pada diri sendiri.</em></div><small>1 Jan &middot; surat pertama</small></li>
+      <li data-m="2"><span class="mo">FEB</span><div><b>The Meaning of Enough</b><em>Ramadan, menahan diri, syukur dan apa sebenarnya cukup.</em></div><small>Ramadan ~8 Feb*</small></li>
+      <li data-m="3"><span class="mo">MAC</span><div><b>The Stories We Carry</b><em>Raya, keluarga, kenangan dan makna pulang ke rumah.</em></div><small>Aidilfitri ~10 Mac*</small></li>
+      <li data-m="4"><span class="mo">APR</span><div><b>The Art of Living Well</b><em>Rumah, rehat, gerak badan, alam dan hidup yang lebih perlahan.</em></div><small></small></li>
+      <li data-m="5"><span class="mo">MEI</span><div><b>The Language of Nourishment</b><em>Makanan: sejarahnya, sainsnya dan cerita di sebaliknya.</em></div><small>Aidiladha ~17 Mei*</small></li>
+      <li data-m="6"><span class="mo">JUN</span><div><b>The Art of Beginning Again</b><em>Hijrah, berubah, gagal dan mula semula.</em></div><small>Awal Muharam ~6 Jun*</small></li>
+      <li data-m="7"><span class="mo">JUL</span><div><b>The Curious Mind</b><em>Tempat, buku dan benda kecil yang buat kita tertanya-tanya.</em></div><small></small></li>
+      <li data-m="8"><span class="mo">OGO</span><div><b>The Meaning of Identity</b><em>Bahasa, warisan, sejarah dan siapa kita sebenarnya.</em></div><small>Merdeka 31 Ogos</small></li>
+      <li data-m="9"><span class="mo">SEP</span><div><b>The Human Connection</b><em>Kawan, jiran, surat tulisan tangan dan rasa dimiliki.</em></div><small>Hari Malaysia 16 Sep</small></li>
+      <li data-m="10"><span class="mo">OKT</span><div><b>The Conscious Choice</b><em>Label, bahan dan pilihan yang dibuat dengan sedar, bukan dengan takut.</em></div><small></small></li>
+      <li data-m="11"><span class="mo">NOV</span><div><b>The Language of Love</b><em>Cinta, puisi, sastera dan emosi manusia.</em></div><small></small></li>
+      <li data-m="12"><span class="mo">DIS</span><div><b>The Art of Remembering</b><em>Kenangan, syukur dan masa yang berlalu.</em></div><small>31 Dis &middot; surat terakhir</small></li>
+    </ol>
+    <p class="jgnote" lang="ms">* Tarikh Islam ialah unjuran. Tarikh sebenar ikut pengumuman rasmi Penyimpan Mohor Besar Raja-Raja.</p>
+
+    <section class="jgblock rise" aria-labelledby="jgTalk" lang="ms">
+      <h3 id="jgTalk">Apa yang kita bualkan di warung ni</h3>
+      <ul class="jgchips">
+        <li>Diri &amp; perkembangan peribadi</li><li>Psikologi &amp; tingkah laku manusia</li><li>Falsafah hidup</li>
+        <li>Renungan Islam</li><li>Hidup holistik</li><li>Makanan &amp; budaya makan</li><li>Hidup sihat harian</li>
+        <li>Pilihan pengguna yang sedar</li><li>Buku, puisi &amp; menulis</li><li>Sejarah &amp; warisan Malaysia</li>
+        <li>Alam &amp; penemuan kecil</li><li>Rumah &amp; rutin</li><li>Kenangan, cinta &amp; rasa dimiliki</li><li>Sains &amp; masyarakat</li>
+      </ul>
+    </section>
+
+    <section class="jgblock rise" aria-labelledby="jgRules" lang="ms">
+      <h3 id="jgRules">Peraturan warung</h3>
+      <ol class="jgrules">
+        <li><b>Saya bukan doktor, pakar pemakanan atau ustazah.</b> Apa yang saya kongsi ialah apa yang saya baca, cuba dan fikirkan sebagai seorang manusia biasa yang suka bertanya.</li>
+        <li><b>Fakta datang dengan sumber.</b> Kalau kajiannya masih awal atau lemah, saya cakap ia masih awal atau lemah.</li>
+        <li><b>Renungan agama ialah renungan peribadi, bukan fatwa.</b> Rujukan saya Al-Quran, hadis yang jelas statusnya, dan pejabat mufti.</li>
+        <li><b>Hidup tanpa toksik ialah pilihan peribadi saya,</b> bukan alasan untuk menakutkan sesiapa. Saya tunjuk cara saya menimbang, awak buat keputusan sendiri.</li>
+        <li><b>Tak ada jualan paksa.</b> Kalau satu hari nanti ada sesuatu untuk ditawarkan, awak akan tahu dengan jelas, dan pelanggan Surat Jumaat tahu dulu.</li>
+      </ol>
+    </section>
+
+    <section class="jgblock rise" aria-labelledby="jgKitchen" lang="ms">
+      <h3 id="jgKitchen">Dalam dapur</h3>
+      <p class="jgsoon" id="jgSoon">Ada beberapa benda sedang dimasak perlahan-lahan di belakang. Bila dah masak, pelanggan Surat Jumaat orang pertama yang tahu.</p>
+      <ul class="jgkitchen">
+        <li data-from="2027-03-01" hidden><b>Sebuah memoir</b><em>Saya sedang menulis cerita perjalanan hidup saya sendiri. Perlahan, tapi jujur.</em></li>
+        <li data-from="2027-09-15" hidden><b>Meal Club</b><em>Surat tulisan tangan, rasa nostalgia dan sesuatu yang boleh awak pegang. Senarai menunggu dibuka melalui Surat Jumaat.</em></li>
+        <li data-from="2027-11-08" hidden><b>Sebuah buku tentang cinta</b><em>Puisi, petikan dan cerita tentang pelbagai bentuk cinta.</em></li>
+      </ul>
+      <p class="jgcta"><button type="button" class="key" data-go="ch2">Daftar Surat Jumaat</button></p>
+    </section>
+
+  </div>
+  <div class="jgend"><p lang="ms">Dua belas bulan. Satu kerusi. Duduklah lama sikit.</p></div>
+</section>
+
 <section class="channel" id="ch2" aria-hidden="true">
   <div class="wrap">
 
@@ -3151,7 +3313,7 @@ var i=document.getElementById("intro");if(i){i.hidden=true;}}},7400);})();
         </div>
         <canvas class="wjsnow" width="140" height="84" aria-hidden="true"></canvas>
         <div class="wjosd" aria-hidden="true">
-          <span class="l">SIARAN 02</span>
+          <span class="l">SIARAN 03</span>
           <span class="r"><i></i>RAKAM</span>
         </div>
         <div class="wjthird">
@@ -3161,7 +3323,7 @@ var i=document.getElementById("intro");if(i){i.hidden=true;}}},7400);})();
         </div>
         <span class="wjroll" aria-hidden="true"></span>
       </div>
-      <p class="wjcap" lang="ms" id="wjNext">Siaran dua &middot; setiap pagi Jumaat</p>
+      <p class="wjcap" lang="ms" id="wjNext">Siaran tiga &middot; setiap pagi Jumaat</p>
     </div>
 
     <div class="wjhead">
@@ -3242,7 +3404,7 @@ var i=document.getElementById("intro");if(i){i.hidden=true;}}},7400);})();
     <div class="wjcard rise">
       <div class="r">
         <span class="k" lang="ms">Apa yang sampai</span>
-        <p class="v" lang="ms">Satu surat. Satu idea, habis sampai hujung.</p>
+        <p class="v" lang="ms">Satu surat. Satu idea ikut tema bulan itu, habis sampai hujung.</p>
       </div>
       <div class="r">
         <span class="k" lang="ms">Bila</span>
@@ -3313,7 +3475,7 @@ var i=document.getElementById("intro");if(i){i.hidden=true;}}},7400);})();
   <div class="wjfoot">
     <p class="fl" lang="ms">SURAT JUMAAT &middot; WARUNG ATHIRAH</p>
     <p class="fs" lang="ms">Air dah masak. Tinggal awak nak duduk ke tak je.</p>
-    <p class="fn" lang="ms"><button type="button" data-go="ch3">Siaran tiga &rarr; Tunggu Jumaat</button></p>
+    <p class="fn" lang="ms"><button type="button" data-go="ch3">Siaran empat &rarr; Tunggu Jumaat</button></p>
   </div>
 </section>
 
@@ -3351,7 +3513,7 @@ var i=document.getElementById("intro");if(i){i.hidden=true;}}},7400);})();
 
           <h2 class="vztitle">Surat Jumaat seterusnya</h2>
           <p class="vzstatus">
-            <b>Siaran 03</b>
+            <b>Siaran 04</b>
             <span>Setiap Jumaat, 6 pagi</span>
             <em>Percuma</em>
           </p>
@@ -3443,8 +3605,9 @@ var i=document.getElementById("intro");if(i){i.hidden=true;}}},7400);})();
 
   var CHANNELS = [
     { id:"ch1", num:"CH 01", jawi:"واروڠ",        name:"WARUNG",   cta:"Buka siaran" },
-    { id:"ch2", num:"CH 02", jawi:"سورت جمعة",   name:"SURAT JUMAAT", cta:"Buka siaran" },
-    { id:"ch3", num:"CH 03", jawi:"تونݢو جمعة",   name:"TUNGGU JUMAAT", cta:"Buka siaran" }
+    { id:"chg", num:"CH 02", jawi:"جدوال سيارن",  name:"JADUAL SIARAN", cta:"Buka siaran" },
+    { id:"ch2", num:"CH 03", jawi:"سورت جمعة",   name:"SURAT JUMAAT", cta:"Buka siaran" },
+    { id:"ch3", num:"CH 04", jawi:"تونݢو جمعة",   name:"TUNGGU JUMAAT", cta:"Buka siaran" }
   ];
   var current = 0;
 
@@ -4175,10 +4338,51 @@ var i=document.getElementById("intro");if(i){i.hidden=true;}}},7400);})();
       } else {
         say = "Surat berikutnya kurang sejam lagi";
       }
-      if(line) line.textContent = "Siaran dua · " + say;
+      if(line) line.textContent = "Siaran tiga · " + say;
     }
     tick();
     setInterval(tick, 30000);
+  })();
+
+  /* ---------- 07f · the programme guide --------------------------------
+     Lights up the month that is on air (Malaysia time) and opens the
+     "dalam dapur" items on the dates the 2027 plan introduces them.
+     Add ?preview=1 to the address to see every item at once.
+  ----------------------------------------------------------------------- */
+  (function(){
+    var list = $("#jgList");
+    if(!list) return;
+    var MONTHS = ["JANUARI","FEBRUARI","MAC","APRIL","MEI","JUN","JULAI","OGOS","SEPTEMBER","OKTOBER","NOVEMBER","DISEMBER"];
+    var preview = /[?&]preview=1/.test(window.location.search);
+    var my = new Date(Date.now() + 8 * 3600000);          /* Malaysia is UTC+8 */
+    var y = my.getUTCFullYear(), m = my.getUTCMonth() + 1;
+    var today = my.toISOString().slice(0, 10);
+
+    var onAir = 0, flag = "";
+    if(y === 2027){ onAir = m; flag = "SEDANG BERSIARAN"; }
+    else if(y < 2027){ onAir = 1; flag = "PERDANA · 1 JAN 2027"; }
+    else { onAir = 12; flag = "ARKIB SIARAN 2027"; }
+
+    $$("li", list).forEach(function(li){
+      var n = +li.getAttribute("data-m");
+      li.classList.toggle("on", n === onAir);
+      li.classList.toggle("past", y === 2027 && n < onAir);
+      if(n === onAir){
+        li.setAttribute("aria-current", "true");
+        var t = $("#jgTheme"), l = $("#jgLine"), mo = $("#jgMon"), f = $("#jgFlag");
+        if(t) t.textContent = $("b", li).textContent;
+        if(l) l.textContent = $("em", li).textContent;
+        if(mo) mo.textContent = MONTHS[n - 1] + " 2027";
+        if(f) f.textContent = flag;
+      }
+    });
+
+    var shown = 0;
+    $$(".jgkitchen li").forEach(function(li){
+      if(preview || today >= li.getAttribute("data-from")){ li.hidden = false; shown++; }
+    });
+    var soon = $("#jgSoon");
+    if(soon && shown){ soon.textContent = "Yang dah keluar dari dapur setakat ini:"; }
   })();
 
   /* ---------- 08 · reveals ---------- */

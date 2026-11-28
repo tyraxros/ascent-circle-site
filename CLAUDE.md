@@ -13,4 +13,4 @@ Buka **fail bulan semasa terus** (contoh: Mac → `content-strategy-2027/03-mac-
 - Jangan reka ayat Al-Quran, hadis, petikan, statistik, kajian atau URL. Bukti lemah disebut lemah.
 - Dia bukan doktor, pakar pemakanan, ustazah atau guru bisnes. Tiada kandungan kilang/operasi perniagaan.
 - Tarikh Islam 2027 ialah unjuran sehingga diumumkan secara rasmi.
-- Jika garis masa projek (memoir Mac, Meal Club 15 Sep, buku cinta 8 Nov) berubah, kemas kini juga atribut `data-from` dalam bahagian "Dalam dapur" di `site/index.html`.
+- Jika garis masa projek (memoir Mac, Meal Club 15 Sep, buku cinta 12 Nov) berubah, kemas kini juga atribut `data-from` dalam bahagian "Dalam dapur" di `site/index.html`.
